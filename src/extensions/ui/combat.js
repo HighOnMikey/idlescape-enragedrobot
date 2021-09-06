@@ -23,10 +23,14 @@ class CombatUI {
         playerAvatar.className = "enragedrobot-combatui-stylesheet player-avatar";
         playerAvatar.innerHTML = `
             div.combat-player-area > div {
-                position: relative !important;
+                right: unset !important;
+                left: 0 !important;
+                top: 32px !important;
+                bottom: unset !important;
+                margin-top: 0 !important;
             }
             
-            div.combat-player-area > div > div.combat-fight-image-container {
+            div.combat-player-area > div > div.combat-fight-image-container img {
                 display: none !important;
             }
             
@@ -41,13 +45,15 @@ class CombatUI {
         let monsterAvatar = head.appendChild(document.createElement("style"));
         monsterAvatar.className = "enragedrobot-combatui-stylesheet monster-avatar";
         monsterAvatar.innerHTML = `
-            div.combat-monster-area > div,
-            .combat-monster-area {
-                position: relative !important;
+            div.combat-monster-area > div {
+                left: unset !important;
+                right: 0 !important;
+                top: 32px !important;
+                bottom: unset !important;
                 margin-top: 0 !important;
             }
             
-            div.combat-monster-area > div > div.combat-fight-image-container {
+            div.combat-monster-area > div > div.combat-fight-image-container img {
                 display: none !important;
             }
             
