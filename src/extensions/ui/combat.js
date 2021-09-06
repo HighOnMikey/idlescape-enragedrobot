@@ -1,6 +1,7 @@
 class CombatUI {
     constructor(robot) {
         this.robot = robot;
+        this.stylesheets = {};
         if (this.robot.getOption("extensions.CombatUI") === true) {
             this.enable();
         }
@@ -19,9 +20,9 @@ class CombatUI {
     setupStylesheets() {
         let head = document.querySelector("head");
 
-        let playerAvatar = head.appendChild(document.createElement("style"));
-        playerAvatar.className = "enragedrobot-combatui-stylesheet player-avatar";
-        playerAvatar.innerHTML = `
+        this.stylesheets.playerAvatar = head.appendChild(document.createElement("style"));
+        this.stylesheets.playerAvatar.className = "enragedrobot-combatui-stylesheet player-avatar";
+        this.stylesheets.playerAvatar.innerHTML = `
             div.combat-player-area > div {
                 right: unset !important;
                 left: 0 !important;
@@ -40,11 +41,11 @@ class CombatUI {
                 left: 0 !important;
             }
         `;
-        playerAvatar.disabled = !this.robot.getOption("ui.disable_player_avatar");
+        this.stylesheets.playerAvatar.disabled = !this.robot.getOption("ui.disable_player_avatar");
 
-        let monsterAvatar = head.appendChild(document.createElement("style"));
-        monsterAvatar.className = "enragedrobot-combatui-stylesheet monster-avatar";
-        monsterAvatar.innerHTML = `
+        this.stylesheets.monsterAvatar = head.appendChild(document.createElement("style"));
+        this.stylesheets.monsterAvatar.className = "enragedrobot-combatui-stylesheet monster-avatar";
+        this.stylesheets.monsterAvatar.innerHTML = `
             div.combat-monster-area > div {
                 left: unset !important;
                 right: 0 !important;
@@ -63,20 +64,18 @@ class CombatUI {
                 right: 0 !important;
             }
         `;
-        monsterAvatar.disabled = !this.robot.getOption("ui.disable_monster_avatar");
+        this.stylesheets.monsterAvatar.disabled = !this.robot.getOption("ui.disable_monster_avatar");
     }
 
     destroyStylesheets() {
-        let stylesheets = document.querySelectorAll("style.enragedrobot-combatui-stylesheet");
-        for (let sheet of stylesheets) {
-            sheet.remove();
-        }
+        Object.values(this.stylesheets).forEach((stylesheet) => {
+            stylesheet.remove();
+        });
     }
 
     toggleAvatarHandler(event) {
-        let sheet = document.querySelector(`style.enragedrobot-combatui-stylesheet.${event.data}-avatar`);
-        if (typeof sheet === "object") {
-            sheet.disabled = !sheet.disabled;
-        }
+        let sheet = `${event.data}Avatar`;
+        if (!this.stylesheets.hasOwnProperty(sheet)) return;
+        this.stylesheets[sheet].disabled = !this.stylesheets[sheet].disabled;
     }
 }
