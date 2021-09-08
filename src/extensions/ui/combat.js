@@ -68,14 +68,15 @@ class CombatUI {
     }
 
     destroyStylesheets() {
-        Object.values(this.stylesheets).forEach((stylesheet) => {
-            stylesheet.remove();
-        });
+        for (let k in this.stylesheets) {
+            this.stylesheets[k].remove();
+            delete this.stylesheets[k];
+        }
     }
 
     toggleAvatarHandler(event) {
         let sheet = `${event.data}Avatar`;
         if (!this.stylesheets.hasOwnProperty(sheet)) return;
-        this.stylesheets[sheet].disabled = !this.stylesheets[sheet].disabled;
+        this.stylesheets[sheet].disabled = !this.robot.getOption(`combat.disable_${event.data}_avatar`);
     }
 }
