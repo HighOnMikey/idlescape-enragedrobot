@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            EnragedRobot Loader
 // @namespace       EnragedRobot
-// @version         0.6.10
+// @version         0.7.0
 // @description     Loads scripts written by Schlermbo/HighOnMikey
 // @author          Schlermbo/HighOnMikey
 // @match           *://*.idlescape.com/*
@@ -11,9 +11,11 @@
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-data/main/src/data.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/const.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/enragedrobot.js
+// @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/extensions/player_status.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/extensions/ui/settings.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/extensions/ui/tooltips.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/extensions/ui/combat.js
+// @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/extensions/ui/enchants.js
 // @grant           none
 // @run-at          document-start
 // ==/UserScript==

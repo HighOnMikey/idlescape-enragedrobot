@@ -2,6 +2,10 @@ class ERC {
     static STORAGE_KEY = "enragedRobot";
     static STORAGE_VERSION = 2;
     static DEFAULT_SETTINGS = {
+        combat: {
+            disable_monster_avatar: false,
+            disable_player_avatar: false,
+        },
         enchants: {
             destructive_warn: true,
             destructive_color: "darkred",
@@ -10,10 +14,6 @@ class ERC {
             Tooltips: true,
             CombatUI: true,
             EnchantsUI: true,
-        },
-        ui: {
-            disable_monster_avatar: false,
-            disable_player_avatar: false,
         },
         tooltips: {
             useModifierKey: false,

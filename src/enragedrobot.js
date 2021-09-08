@@ -95,9 +95,11 @@ class EnragedRobot {
     }
 
     loadExtensions() {
+        this.extensions.PlayerStatus = new PlayerStatus(this);
         this.extensions.Settings = new Settings(this);
         this.extensions.Tooltips = new Tooltips(this);
         this.extensions.CombatUI = new CombatUI(this);
+        this.extensions.EnchantsUI = new EnchantsUI(this);
     }
 
     uiEventHandler(event, data) {

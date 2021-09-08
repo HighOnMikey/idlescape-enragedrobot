@@ -12,6 +12,8 @@ class EnchantsUI {
 
     disable() {
         this.robot.uiEvents.addEventListener(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, this.updateEnchantments);
+        let navbar = document.querySelector("div.navbar1");
+        navbar.style.backgroundColor = undefined;
     }
 
     updateEnchantments(event) {

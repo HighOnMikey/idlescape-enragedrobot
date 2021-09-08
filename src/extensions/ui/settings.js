@@ -137,12 +137,62 @@ class Settings {
             ),
         );
         extensionsSection.append(
+            self.createSettingsCheckbox("Enable Enchants UI", "extensions.EnchantsUI", false, (checked) =>
+                self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_EXTENSION, { extension: "EnchantsUI", enabled: checked }),
+            ),
+        );
+        extensionsSection.append(
             self.createSettingsCheckbox("Enable Enhanced Tooltips", "extensions.Tooltips", false, (checked) =>
                 self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_EXTENSION, { extension: "CombatUI", enabled: checked }),
             ),
         );
-
         panel.append(extensionsSection);
+
+        let combatUISection = self.createSection();
+        combatUISection.append(self.createSettingsHeader("Combat UI"));
+        combatUISection.append(
+            self.createSettingsCheckbox(
+                "Disable Player combat avatar and align info bar to top left",
+                "combat.disable_player_avatar",
+                false,
+                () => {
+                    self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, "player");
+                },
+            ),
+        );
+        combatUISection.append(
+            self.createSettingsCheckbox(
+                "Disable monster combat avatar and align info bar to top right",
+                "combat.disable_monster_avatar",
+                false,
+                () => {
+                    self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, "monster");
+                },
+            ),
+        );
+        panel.append(combatUISection);
+
+        let enchantsUISection = self.createSection();
+        enchantsUISection.append(self.createSettingsHeader("Enchants UI"));
+        enchantsUISection.append(
+            self.createSettingsCheckbox(
+                "Change the color of the top navigation bar when a destructive enchant is active (i.e. Scholar)",
+                "enchants.destructive_warn",
+                true,
+                () => {
+                    self.robot.uiEventHandler(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, self.robot.extensions.EnchantsUI.equipmentEnchants);
+                },
+            ),
+        );
+        enchantsUISection.createSettingsColorPicker(
+            "Navigation bar color when destructive enchant is active",
+            "enchants.destructive_color",
+            ERC.DEFAULT_SETTINGS.enchants.destructive_color,
+            () => {
+                self.robot.uiEventHandler(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, self.robot.extensions.EnchantsUI.equipmentEnchants);
+            },
+        );
+        panel.append(enchantsUISection);
 
         let tooltipsSection = self.createSection();
         tooltipsSection.append(self.createSettingsHeader("Tooltips"));
@@ -156,31 +206,6 @@ class Settings {
             ),
         );
         panel.append(tooltipsSection);
-
-        let combatUISection = self.createSection();
-        combatUISection.append(self.createSettingsHeader("Combat UI"));
-        combatUISection.append(
-            self.createSettingsCheckbox(
-                "Disable Player combat avatar and align info bar to top left",
-                "ui.disable_player_avatar",
-                false,
-                () => {
-                    self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, "player");
-                },
-            ),
-        );
-
-        combatUISection.append(
-            self.createSettingsCheckbox(
-                "Disable monster combat avatar and align info bar to top right",
-                "ui.disable_monster_avatar",
-                false,
-                () => {
-                    self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, "monster");
-                },
-            ),
-        );
-        panel.append(combatUISection);
 
         playAreaContainer.appendChild(playArea);
     }
@@ -253,7 +278,7 @@ class Settings {
         return row;
     }
 
-    createSettingsCheckbox(description, option, defaultValue = false, callback = function () {}) {
+    createSettingsCheckbox(description, option, defaultValue = false, callback = () => {}) {
         let row = document.createElement("div");
         row.className = "settings-row";
         let label = row.appendChild(document.createElement("label"));
@@ -271,7 +296,40 @@ class Settings {
 
         return row;
     }
+    createSettingsColorPicker(description, option, defaultValue = undefined, callback = () => {}) {
+        let row = document.createElement("div");
+        row.className = "settings-row";
+        let label = row.appendChild(document.createElement("label"));
+        let picker = row.appendChild(document.createElement("input"));
+        picker.type = "color";
+        picker.value = this.robot.getOption(option, defaultValue);
 
+        let save = row.appendChild(document.createElement("div"));
+        save.className = "settings-button";
+        save.style.textAlign = "center";
+        save.onclick = () => {
+            this.robot.setOption(option, picker.data);
+            callback(picker.value);
+        };
+        save.append("Save");
+
+        let reset = row.appendChild(document.createElement("div"));
+        reset.className = "settings-button";
+        reset.style.backgroundColor = "darkred";
+        reset.style.textAlign = "center";
+        reset.onclick = () => {
+            picker.value = this.robot.getOption(option, defaultValue);
+            callback(picker.value);
+        };
+        reset.append("Reset");
+
+        label.append(picker);
+        label.append(save);
+        label.append(reset);
+        label.append(` ${description}`);
+
+        return row;
+    }
     createSettingsKeybind() {
         let row = document.createElement("div");
         row.className = "settings-row";
@@ -297,8 +355,9 @@ class Settings {
         reset.style.backgroundColor = "darkred";
         reset.style.textAlign = "center";
         reset.onclick = () => {
-            textBox.value = `Modifier Key: ${this.robot.getOption("tooltips.modifierKey", "Control")}`;
-            textBox.data = this.robot.getOption("tooltips.modifierKey", "Control");
+            let modKey = this.robot.getOption("tooltips.modifierKey", ERC.DEFAULT_SETTINGS.tooltips.modifierKey);
+            textBox.value = `Modifier Key: ${modKey}`;
+            textBox.data = modKey;
         };
         reset.append("Reset");
 
