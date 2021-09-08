@@ -3,7 +3,6 @@ class EnragedRobot {
         this.uiEvents = new EventTarget();
         this.extensions = {};
         this.setupStorage();
-        this.loadExtensions();
         this.uiEvents.addEventListener(ERC.UI_EVENTS.TOGGLE_EXTENSION, (e) => this.extensionHandler(e));
     }
 
