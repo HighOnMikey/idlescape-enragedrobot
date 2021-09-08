@@ -8,7 +8,7 @@ class ERC {
         },
         enchants: {
             destructive_warn: true,
-            destructive_color: "darkred",
+            destructive_color: "#8B0000",
         },
         extensions: {
             Tooltips: true,

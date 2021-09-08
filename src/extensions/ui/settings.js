@@ -184,20 +184,24 @@ class Settings {
                 },
             ),
         );
-        enchantsUISection.createSettingsColorPicker(
-            "Navigation bar color when destructive enchant is active",
-            "enchants.destructive_color",
-            ERC.DEFAULT_SETTINGS.enchants.destructive_color,
-            () => {
-                self.robot.uiEventHandler(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, self.robot.extensions.EnchantsUI.equipmentEnchants);
-            },
+        enchantsUISection.append(
+            self.createSettingsColorPicker(
+                "Navigation bar color when destructive enchant is active",
+                "enchants.destructive_color",
+                ERC.DEFAULT_SETTINGS.enchants.destructive_color,
+                () => {
+                    self.robot.uiEventHandler(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, self.robot.extensions.EnchantsUI.equipmentEnchants);
+                },
+            ),
         );
         panel.append(enchantsUISection);
 
         let tooltipsSection = self.createSection();
         tooltipsSection.append(self.createSettingsHeader("Tooltips"));
         tooltipsSection.append(self.createSettingsCheckbox("Use modifier to toggle enhanced tooltips", "tooltips.useModifierKey"));
-        tooltipsSection.append(self.createSettingsKeybind());
+        tooltipsSection.append(
+            self.createSettingsKeybind("Modifier Key", "tooltips.modifierKey", ERC.DEFAULT_SETTINGS.tooltips.modifierKey),
+        );
         tooltipsSection.append(
             self.createSettingsCheckbox(
                 "Show market max value in tooltip (most of the time max value is useless)",
@@ -299,23 +303,25 @@ class Settings {
     createSettingsColorPicker(description, option, defaultValue = undefined, callback = () => {}) {
         let row = document.createElement("div");
         row.className = "settings-row";
-        let label = row.appendChild(document.createElement("label"));
+
         let picker = row.appendChild(document.createElement("input"));
         picker.type = "color";
         picker.value = this.robot.getOption(option, defaultValue);
+        picker.className = "settings-button";
+        picker.style.backgroundColor = "transparent";
 
         let save = row.appendChild(document.createElement("div"));
         save.className = "settings-button";
         save.style.textAlign = "center";
         save.onclick = () => {
-            this.robot.setOption(option, picker.data);
+            this.robot.setOption(option, picker.value);
             callback(picker.value);
         };
         save.append("Save");
 
         let reset = row.appendChild(document.createElement("div"));
         reset.className = "settings-button";
-        reset.style.backgroundColor = "darkred";
+        reset.style.backgroundColor = "#8B0000";
         reset.style.textAlign = "center";
         reset.onclick = () => {
             picker.value = this.robot.getOption(option, defaultValue);
@@ -323,14 +329,27 @@ class Settings {
         };
         reset.append("Reset");
 
-        label.append(picker);
-        label.append(save);
-        label.append(reset);
-        label.append(` ${description}`);
+        let defaultButton = row.appendChild(document.createElement("div"));
+        defaultButton.className = "settings-button";
+        defaultButton.style.backgroundColor = "#8B0000";
+        defaultButton.style.textAlign = "center";
+        defaultButton.onclick = () => {
+            picker.value = defaultValue;
+            callback(picker.value);
+        };
+        defaultButton.append("Default");
+
+        let label = row.appendChild(document.createElement("label"));
+        label.style.height = "28px!important";
+        label.style.lineHeight = "28px!important";
+        label.style.marginLeft = "10px";
+        label.style.marginBottom = "0px!important";
+        label.style.marginTop = "3px!important";
+        label.append(`${description}`);
 
         return row;
     }
-    createSettingsKeybind() {
+    createSettingsKeybind(description, option, defaultValue = undefined) {
         let row = document.createElement("div");
         row.className = "settings-row";
         let textBox = row.appendChild(document.createElement("input"));
@@ -338,28 +357,39 @@ class Settings {
         textBox.readOnly = true;
         textBox.className = "settings-textbox";
         textBox.style.width = "140px";
-        textBox.value = `Modifier Key: ${this.robot.getOption("tooltips.modifierKey")}`;
-        textBox.data = this.robot.getOption("tooltips.modifierKey");
+        textBox.value = `${description}: ${this.robot.getOption(option, defaultValue)}`;
+        textBox.data = this.robot.getOption(option, defaultValue);
         textBox.onkeydown = (e) => {
-            textBox.value = `Modifier Key: ${e.key}`;
+            textBox.value = `${description}: ${e.key}`;
             textBox.data = e.key;
         };
         let save = row.appendChild(document.createElement("div"));
         save.className = "settings-button";
         save.style.textAlign = "center";
-        save.onclick = () => this.robot.setOption("tooltips.modifierKey", textBox.data);
+        save.onclick = () => this.robot.setOption(option, textBox.data);
         save.append("Save");
 
         let reset = row.appendChild(document.createElement("div"));
         reset.className = "settings-button";
-        reset.style.backgroundColor = "darkred";
+        reset.style.backgroundColor = "#8B0000";
         reset.style.textAlign = "center";
         reset.onclick = () => {
-            let modKey = this.robot.getOption("tooltips.modifierKey", ERC.DEFAULT_SETTINGS.tooltips.modifierKey);
-            textBox.value = `Modifier Key: ${modKey}`;
+            let modKey = this.robot.getOption(option, defaultValue);
+            textBox.value = `${description}: ${modKey}`;
             textBox.data = modKey;
         };
         reset.append("Reset");
+
+        let defaultButton = row.appendChild(document.createElement("div"));
+        defaultButton.className = "settings-button";
+        defaultButton.style.backgroundColor = "#8B0000";
+        defaultButton.style.textAlign = "center";
+        defaultButton.onclick = () => {
+            textBox.value = `${description}: ${defaultValue}`;
+            textBox.data = defaultValue;
+            this.robot.setOption(option, defaultValue);
+        };
+        defaultButton.append("Default");
 
         return row;
     }
