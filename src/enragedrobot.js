@@ -21,16 +21,20 @@ class EnragedRobot {
     }
 
     upgradeStorage(userVersion) {
-        if (userVersion === 0) {
-            localStorage.setItem(ERC.STORAGE_KEY, JSON.stringify(ERC.DEFAULT_SETTINGS));
-            console.log("EnragedRobot: Upgraded to storage version 1");
-        } else if (userVersion === 1) {
-            this.setOption("enchants", this.getOption("enchantments"));
-            this.setOption("enchants.destructive_color", ERC.DEFAULT_SETTINGS.enchants.destructive_color);
-            this.deleteOption("enchantments");
-            this.setOption("combat", this.getOption("ui"));
-            this.deleteOption("ui");
-            console.log("EnragedRobot: Upgraded to storage version 2");
+        while (userVersion < ERC.STORAGE_VERSION) {
+            if (userVersion === 0) {
+                localStorage.setItem(ERC.STORAGE_KEY, JSON.stringify(ERC.DEFAULT_SETTINGS));
+                this.setOption("storage_version", ++userVersion);
+                console.log("EnragedRobot: Upgraded to storage version 1");
+            } else if (userVersion === 1) {
+                this.setOption("enchants", this.getOption("enchantments"));
+                this.setOption("enchants.destructive_color", ERC.DEFAULT_SETTINGS.enchants.destructive_color);
+                this.deleteOption("enchantments");
+                this.setOption("combat", this.getOption("ui"));
+                this.deleteOption("ui");
+                this.setOption("storage_version", ++userVersion);
+                console.log("EnragedRobot: Upgraded to storage version 2");
+            }
         }
     }
 
