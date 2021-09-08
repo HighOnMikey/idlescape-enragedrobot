@@ -23,6 +23,14 @@ class EnragedRobot {
     upgradeStorage(userVersion) {
         if (userVersion === 0) {
             localStorage.setItem(ERC.STORAGE_KEY, JSON.stringify(ERC.DEFAULT_SETTINGS));
+            console.log("EnragedRobot: Upgraded to storage version 1");
+        } else if (userVersion === 1) {
+            this.setOption("enchants", this.getOption("enchantments"));
+            this.setOption("enchants.destructive_color", ERC.DEFAULT_SETTINGS.enchants.destructive_color);
+            this.deleteOption("enchantments");
+            this.setOption("combat", this.getOption("ui"));
+            this.deleteOption("ui");
+            console.log("EnragedRobot: Upgraded to storage version 2");
         }
     }
 
@@ -53,13 +61,34 @@ class EnragedRobot {
             if (keys.length > 0) {
                 if (typeof s[k] !== "object") {
                     if (typeof s[k] !== "undefined" && !overwrite) {
-                        throw "EnragedRobot: option key exists and is not an object but overwrite is false";
+                        console.error("EnragedRobot: option key exists and is not an object but overwrite is false");
+                        return;
                     }
                     s[k] = {};
                 }
                 s = s[k];
             } else {
                 s[k] = value;
+            }
+        }
+        localStorage.setItem(ERC.STORAGE_KEY, JSON.stringify(settings));
+    }
+
+    deleteOption(key) {
+        let settings = JSON.parse(localStorage.getItem(ERC.STORAGE_KEY));
+        let keys = key.split("."),
+            s = settings,
+            k;
+
+        while ((k = keys.shift())) {
+            if (keys.length > 0) {
+                if (typeof s[k] !== "object") {
+                    console.error(`EnragedRobot: Trying to delete option from non-existent nest: ${key}`);
+                    return;
+                }
+                s = s[k];
+            } else {
+                delete s[k];
             }
         }
         localStorage.setItem(ERC.STORAGE_KEY, JSON.stringify(settings));

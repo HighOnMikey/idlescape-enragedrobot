@@ -41,7 +41,7 @@ class CombatUI {
                 left: 0 !important;
             }
         `;
-        this.stylesheets.playerAvatar.disabled = !this.robot.getOption("ui.disable_player_avatar");
+        this.stylesheets.playerAvatar.disabled = !this.robot.getOption("combat.disable_player_avatar");
 
         this.stylesheets.monsterAvatar = head.appendChild(document.createElement("style"));
         this.stylesheets.monsterAvatar.className = "enragedrobot-combatui-stylesheet monster-avatar";
@@ -64,7 +64,7 @@ class CombatUI {
                 right: 0 !important;
             }
         `;
-        this.stylesheets.monsterAvatar.disabled = !this.robot.getOption("ui.disable_monster_avatar");
+        this.stylesheets.monsterAvatar.disabled = !this.robot.getOption("combat.disable_monster_avatar");
     }
 
     destroyStylesheets() {
