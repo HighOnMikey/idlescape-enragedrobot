@@ -2,6 +2,7 @@ class Tooltips {
     constructor(robot) {
         this.robot = robot;
         this.observers = [];
+        this.listeners = [];
 
         if (this.robot.getOption("extensions.Tooltips") === true) {
             this.enable();
@@ -17,10 +18,13 @@ class Tooltips {
 
         this.setupObservers();
         this.startObservers();
+        this.startModifierKeyListeners();
     }
 
     disable() {
         this.stopObservers();
+        this.stopModifierKeyListeners();
+        this.observers = [];
     }
 
     setupObservers() {
@@ -28,15 +32,46 @@ class Tooltips {
     }
 
     startObservers() {
-        for (const o of this.observers) {
+        this.observers.forEach((o) => {
             o.observer.observe(o.target, o.options);
-        }
+        });
     }
 
     stopObservers() {
-        for (const o of this.observers) {
+        this.observers.forEach((o) => {
             o.observer.disconnect();
-        }
+        });
+    }
+
+    startModifierKeyListeners() {
+        let self = this;
+        document.addEventListener("keydown", function _keydown(e) {
+            self.listeners.push({ type: "keydown", fn: _keydown });
+            if (self.robot.getOption("tooltips.useModifierKey") && e.key === self.robot.getOption("tooltips.modifierKey")) {
+                let tooltips = document.getElementsByClassName("enraged-robot-tooltip-container");
+                for (let el in tooltips) {
+                    if (!tooltips.hasOwnProperty(el)) continue;
+                    tooltips[el].style.display = "inline";
+                }
+            }
+        });
+
+        document.addEventListener("keyup", function _keyup(e) {
+            self.listeners.push({ type: "keyup", fn: _keyup });
+            if (self.robot.getOption("tooltips.useModifierKey") && e.key === self.robot.getOption("tooltips.modifierKey")) {
+                let tooltips = document.getElementsByClassName("enraged-robot-tooltip-container");
+                for (let el in tooltips) {
+                    if (!tooltips.hasOwnProperty(el)) continue;
+                    tooltips[el].style.display = "none";
+                }
+            }
+        });
+    }
+
+    stopModifierKeyListeners() {
+        this.listeners.forEach((l) => {
+            document.removeEventListener(l.type, l.fn);
+        });
     }
 
     setupItemTooltipObserver() {
@@ -88,7 +123,7 @@ class Tooltips {
 
         this.observers.push({
             observer: observer,
-            target: window.document.body,
+            target: document.querySelector("body"),
             options: { attributes: true, childList: true, subtree: false },
         });
     }

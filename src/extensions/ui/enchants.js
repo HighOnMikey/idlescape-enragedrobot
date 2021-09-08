@@ -7,32 +7,22 @@ class EnchantsUI {
     }
 
     enable() {
-        this.robot.uiEvents.addEventListener(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, this.updateEnchantments);
+        this.robot.uiEvents.addEventListener(ERC.UI_EVENTS.DESTRUCTIVE_ENCHANT_STATUS, this.toggleDestructiveWarning);
+        this.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus();
     }
 
     disable() {
-        this.robot.uiEvents.addEventListener(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, this.updateEnchantments);
+        this.robot.uiEvents.removeEventListener(ERC.UI_EVENTS.DESTRUCTIVE_ENCHANT_STATUS, this.toggleDestructiveWarning);
         let navbar = document.querySelector("div.navbar1");
-        navbar.style.backgroundColor = undefined;
+        if (!navbar) return;
+        navbar.style.background = "";
     }
 
-    updateEnchantments(event) {
-        let data;
-        if (typeof event.data !== "object") return;
-        data = event.data;
-
-        if (!this.robot.getOption("enchants.destructive_warn")) return;
-
-        let destructive = false;
-        let scholar = IdlescapeData.enchantments.getByName("Scholar");
-        let wealth = IdlescapeData.enchantments.getByName("Wealth");
-        data.forEach((enchant) => {
-            if (enchant.id === scholar.id || enchant.id === wealth.id) {
-                destructive = true;
-            }
-        });
-
+    toggleDestructiveWarning(event) {
         let navbar = document.querySelector("div.navbar1");
-        navbar.style.backgroundColor = destructive ? this.robot.getOption("enchants.destructive_color") : undefined;
+        if (!navbar) return;
+        let enabled = window.enragedRobot.getOption("enchants.destructive_warn");
+        let color = window.enragedRobot.getOption("enchants.destructive_color");
+        navbar.style.background = event.data ? (enabled ? color : "") : "";
     }
 }

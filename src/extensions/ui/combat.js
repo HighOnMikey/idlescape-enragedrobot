@@ -9,12 +9,12 @@ class CombatUI {
 
     enable() {
         this.setupStylesheets();
-        this.robot.uiEvents.addEventListener(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, this.toggleAvatarHandler);
+        this.robot.uiEvents.addEventListener(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, (e) => this.toggleAvatarHandler(e));
     }
 
     disable() {
         this.destroyStylesheets();
-        this.robot.uiEvents.removeEventListener(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, this.toggleAvatarHandler);
+        this.robot.uiEvents.removeEventListener(ERC.UI_EVENTS.TOGGLE_COMBAT_AVATAR, (e) => this.toggleAvatarHandler(e));
     }
 
     setupStylesheets() {

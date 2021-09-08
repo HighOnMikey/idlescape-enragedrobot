@@ -22,6 +22,10 @@
 
 IdlescapeSocketListener.attach();
 IdlescapeDatabase.createDefault();
-window.addEventListener("load", function () {
+(function () {
     window.enragedRobot = new EnragedRobot();
-});
+    window.addEventListener("load", function _() {
+        window.enragedRobot.loadExtensions();
+        window.removeEventListener("load", _);
+    });
+})();

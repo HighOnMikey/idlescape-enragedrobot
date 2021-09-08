@@ -143,7 +143,7 @@ class Settings {
         );
         extensionsSection.append(
             self.createSettingsCheckbox("Enable Enhanced Tooltips", "extensions.Tooltips", false, (checked) =>
-                self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_EXTENSION, { extension: "CombatUI", enabled: checked }),
+                self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_EXTENSION, { extension: "Tooltips", enabled: checked }),
             ),
         );
         panel.append(extensionsSection);
@@ -180,7 +180,7 @@ class Settings {
                 "enchants.destructive_warn",
                 true,
                 () => {
-                    self.robot.uiEventHandler(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, self.robot.extensions.EnchantsUI.equipmentEnchants);
+                    self.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus();
                 },
             ),
         );
@@ -190,7 +190,7 @@ class Settings {
                 "enchants.destructive_color",
                 ERC.DEFAULT_SETTINGS.enchants.destructive_color,
                 () => {
-                    self.robot.uiEventHandler(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, self.robot.extensions.EnchantsUI.equipmentEnchants);
+                    self.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus();
                 },
             ),
         );
@@ -245,7 +245,6 @@ class Settings {
     }
 
     removeCustomPanel(restorePlayArea = true) {
-        console.log(`restorePlayArea: ${restorePlayArea}`);
         let container = document.getElementsByClassName("play-area-container")[0];
         let playAreas = container.getElementsByClassName("play-area");
         for (let playArea of playAreas) {
@@ -340,11 +339,11 @@ class Settings {
         defaultButton.append("Default");
 
         let label = row.appendChild(document.createElement("label"));
-        label.style.height = "28px!important";
-        label.style.lineHeight = "28px!important";
+        label.style.height = "28px";
+        label.style.lineHeight = "28px";
         label.style.marginLeft = "10px";
-        label.style.marginBottom = "0px!important";
-        label.style.marginTop = "3px!important";
+        label.style.marginBottom = "0px";
+        label.style.marginTop = "3px";
         label.append(`${description}`);
 
         return row;

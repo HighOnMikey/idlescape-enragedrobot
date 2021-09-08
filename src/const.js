@@ -24,6 +24,7 @@ class ERC {
 
     static UI_EVENTS = {
         PLAYER_ENCHANT_UPDATE: "player enchant update",
+        DESTRUCTIVE_ENCHANT_STATUS: "destructive enchant status",
         TOGGLE_COMBAT_AVATAR: "toggle combat avatar",
         TOGGLE_EXTENSION: "toggle extension",
     };
