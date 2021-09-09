@@ -44,7 +44,7 @@ class EnragedRobot {
         let keys = key.split(".");
         let k;
         while ((k = keys.shift())) {
-            if (option.hasOwnProperty(k)) {
+            if (option !== null && typeof option === "object" && option.hasOwnProperty(k)) {
                 option = option[k];
             } else {
                 option = defaultValue;
@@ -62,12 +62,11 @@ class EnragedRobot {
 
         while ((k = keys.shift())) {
             if (keys.length > 0) {
-                if (typeof s[k] !== "object") {
-                    if (typeof s[k] !== "undefined" && !overwrite) {
-                        console.error("EnragedRobot: option key exists and is not an object but overwrite is false");
-                        return;
-                    }
+                if (s[k] === null || typeof s[k] === "undefined") {
                     s[k] = {};
+                } else if (typeof s[k] !== "object") {
+                    console.error("EnragedRobot: option key exists and is not an object but overwrite is false");
+                    return;
                 }
                 s = s[k];
             } else {
@@ -85,7 +84,7 @@ class EnragedRobot {
 
         while ((k = keys.shift())) {
             if (keys.length > 0) {
-                if (typeof s[k] !== "object") {
+                if (s[k] === null || typeof s[k] !== "object") {
                     console.error(`EnragedRobot: Trying to delete option from non-existent nest: ${key}`);
                     return;
                 }
