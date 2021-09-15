@@ -99,5 +99,9 @@ class CombatUI {
         let sheet = `${event.data}Avatar`;
         if (!this.stylesheets.hasOwnProperty(sheet)) return;
         this.stylesheets[sheet].disabled = !this.robot.getOption(`combat.disable_${event.data}_avatar`);
+
+        let playerAvatarDisabled = this.robot.getOption("combat.disable_player_avatar");
+        let monsterAvatarDisabled = this.robot.getOption("combat.disable_monster_avatar");
+        this.stylesheets.shared.disabled = !(playerAvatarDisabled || monsterAvatarDisabled);
     }
 }
