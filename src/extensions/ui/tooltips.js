@@ -84,13 +84,16 @@ class Tooltips {
                 if (container.className !== "react-tiny-popover-container") return;
 
                 let tooltip = undefined;
-                let tooltipImage = undefined;
+                let itemName = undefined;
                 let itemQuantity = undefined;
                 // give time for the dom to render the tooltip
                 let tooltipTimeout = setTimeout(() => {}, 100);
                 try {
                     tooltip = container.getElementsByClassName("item-tooltip")[0];
-                    tooltipImage = tooltip.getElementsByClassName("item-tooltip-image")[0].attributes.src.value;
+                    let nameContainer = tooltip.querySelector("span > i")
+                        ? tooltip.querySelector("span > i")
+                        : tooltip.querySelector("span > span");
+                    itemName = nameContainer.firstChild.textContent;
                     itemQuantity = tooltip
                         .getElementsByClassName("tooltip-text-image left")[0]
                         .innerText.match(/Quantity: ([0-9,]+)/)[1]
@@ -99,13 +102,12 @@ class Tooltips {
                 } catch (error) {
                     // ignore, probably quickly moving the mouse over items without intending to read tooltip
                 }
-
-                let items = window.IdlescapeData.items.searchByPropertyValue(tooltipImage, "itemIcon", "itemImage");
-                if (items.length === 0) {
+                let item = window.IdlescapeData.items.getByName(itemName);
+                if (!item) {
                     return;
                 }
 
-                let augmentHtml = self.buildAugmentDataHTML(items[0]);
+                let augmentHtml = self.buildAugmentDataHTML(item);
                 let extraDataContainer = document.createElement("span");
                 extraDataContainer.className = "enraged-robot-tooltip-container";
                 extraDataContainer.style.display = self.robot.getOption("tooltips.useModifierKey") ? "none" : "inline";
