@@ -54,6 +54,8 @@ class GroupUI {
     }
 
     toggleInviteNavFlash(event) {
-        this.stylesheets.inviteNavFlash.disabled = event.data == null || (Array.isArray(event.data) && event.data.length === 0);
+        this.stylesheets.inviteNavFlash.disabled =
+            (event.data == null || (Array.isArray(event.data) && event.data.length === 0)) &&
+            !this.robot.getOption("group.invite_nav_flash");
     }
 }

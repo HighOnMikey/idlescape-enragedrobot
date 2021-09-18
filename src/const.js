@@ -7,6 +7,7 @@ class ERC {
             disable_player_avatar: false,
         },
         group: {
+            invite_nav_flash: true,
             invite_nav_flash_color: "#a0a000",
         },
         enchants: {
