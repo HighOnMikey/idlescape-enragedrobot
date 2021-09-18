@@ -5,8 +5,8 @@
 // @description     Loads scripts written by Schlermbo/HighOnMikey
 // @author          Schlermbo/HighOnMikey
 // @match           *://*.idlescape.com/*
-// @updateURL       https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/enragedrobot.user.js
-// @downloadURL     https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/enragedrobot.user.js
+// @updateURL       https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/dev/src/enragedrobot.user.js
+// @downloadURL     https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/dev/src/enragedrobot.user.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-socketio-listener/main/src/idlescape-listener.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-data/main/src/data.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/dev/src/const.js
