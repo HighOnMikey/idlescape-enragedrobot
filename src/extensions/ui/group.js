@@ -17,7 +17,7 @@ class GroupUI {
             self.setupStylesheets();
             self.toggleInviteNavFlash(e);
         });
-        this.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus();
+        this.robot.extensions.PlayerStatus.emitInviteReceived();
     }
 
     disable() {
@@ -31,7 +31,7 @@ class GroupUI {
         this.stylesheets.inviteNavFlash = head.appendChild(document.createElement("style"));
         this.stylesheets.inviteNavFlash.className = "enragedrobot-groupui-stylesheet navFlash";
         this.stylesheets.inviteNavFlash.innerHTML = `
-            .navbar4, .levelbar-medium-skills, .levelbar-small {
+            .navbar4, .levelbar-medium-skills-container, .levelbar-small {
                 animation: groupInviteAlert 4s infinite;
             }
             
@@ -55,7 +55,6 @@ class GroupUI {
 
     toggleInviteNavFlash(event) {
         this.stylesheets.inviteNavFlash.disabled =
-            (event.data == null || (Array.isArray(event.data) && event.data.length === 0)) &&
-            !this.robot.getOption("group.invite_nav_flash");
+            event.data == null || (Array.isArray(event.data) && event.data.length === 0) || !this.robot.getOption("group.invite_nav_flash");
     }
 }
