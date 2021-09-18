@@ -101,6 +101,7 @@ class EnragedRobot {
         this.extensions.Settings = new Settings(this);
         this.extensions.Tooltips = new Tooltips(this);
         this.extensions.CombatUI = new CombatUI(this);
+        this.extensions.GroupUI = new GroupUI(this);
         this.extensions.EnchantsUI = new EnchantsUI(this);
     }
 

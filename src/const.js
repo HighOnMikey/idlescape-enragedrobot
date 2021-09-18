@@ -6,6 +6,9 @@ class ERC {
             disable_monster_avatar: false,
             disable_player_avatar: false,
         },
+        group: {
+            invite_nav_flash_color: "",
+        },
         enchants: {
             destructive_warn: true,
             destructive_color: "#8B0000",
@@ -25,6 +28,7 @@ class ERC {
     static UI_EVENTS = {
         PLAYER_ENCHANT_UPDATE: "player enchant update",
         DESTRUCTIVE_ENCHANT_STATUS: "destructive enchant status",
+        GROUP_INVITE_RECEIVED: "group invite received",
         TOGGLE_COMBAT_AVATAR: "toggle combat avatar",
         TOGGLE_EXTENSION: "toggle extension",
     };

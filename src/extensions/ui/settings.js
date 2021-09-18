@@ -137,6 +137,11 @@ class Settings {
             ),
         );
         extensionsSection.append(
+            self.createSettingsCheckbox("Enable Group UI", "extensions.GroupUI", false, (checked) =>
+                self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_EXTENSION, { extension: "GroupUI", enabled: checked }),
+            ),
+        );
+        extensionsSection.append(
             self.createSettingsCheckbox("Enable Enchants UI", "extensions.EnchantsUI", false, (checked) =>
                 self.robot.uiEventHandler(ERC.UI_EVENTS.TOGGLE_EXTENSION, { extension: "EnchantsUI", enabled: checked }),
             ),
@@ -172,6 +177,28 @@ class Settings {
         );
         panel.append(combatUISection);
 
+        let groupUISection = self.createSection();
+        groupUISection.append(self.createSettingsHeader("Group UI"));
+        groupUISection.append(
+            self.createSettingsCheckbox(
+                "Flash combat navigation bar when a group invite is pending",
+                "group.invite_nav_flash",
+                true,
+                () => {
+                    self.robot.extensions.PlayerStatus.emitInviteReceived();
+                },
+            ),
+        );
+        groupUISection.append(
+            self.createSettingsColorPicker(
+                "Combat navigation bar flash color when a group invite is pending",
+                "group.invite_nav_flash_color",
+                ERC.DEFAULT_SETTINGS.group.invite_nav_flash_color,
+                () => self.robot.extensions.PlayerStatus.emitInviteReceived(),
+            ),
+        );
+        panel.append(groupUISection);
+
         let enchantsUISection = self.createSection();
         enchantsUISection.append(self.createSettingsHeader("Enchants UI"));
         enchantsUISection.append(
@@ -179,19 +206,15 @@ class Settings {
                 "Change the color of the top navigation bar when a destructive enchant is active (i.e. Scholar)",
                 "enchants.destructive_warn",
                 true,
-                () => {
-                    self.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus();
-                },
+                () => self.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus(),
             ),
         );
         enchantsUISection.append(
             self.createSettingsColorPicker(
-                "Navigation bar color when destructive enchant is active",
+                "Top navigation bar color when destructive enchant is active",
                 "enchants.destructive_color",
                 ERC.DEFAULT_SETTINGS.enchants.destructive_color,
-                () => {
-                    self.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus();
-                },
+                () => self.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus(),
             ),
         );
         panel.append(enchantsUISection);

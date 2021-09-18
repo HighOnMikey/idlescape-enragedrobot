@@ -2,6 +2,7 @@ class PlayerStatus {
     constructor(robot) {
         this.robot = robot;
         this.equipmentEnchants = [];
+        this.groupInvites = [];
         this.destructiveEnchantEquipped = false;
 
         let socketInterval = setInterval(() => {
@@ -13,17 +14,22 @@ class PlayerStatus {
     }
 
     eventHandler(e) {
-        if (e.event === ERC.WS.EVENTS.UPDATE_PLAYER && e.data.hasOwnProperty("portion")) {
-            if (Array.isArray(e.data.portion)) {
-                if (e.data.portion.includes("activeEnchantments")) {
-                    this.updateActiveEnchants(e.data.value);
-                }
-            } else if (e.data.portion === "all") {
-                if (e.data.value.hasOwnProperty("activeEnchantments")) {
-                    this.updateActiveEnchants(e.data.value.activeEnchantments);
-                }
+        if (e.event !== ERC.WS.EVENTS.UPDATE_PLAYER || !e.data.hasOwnProperty("portion")) {
+            return;
+        }
+
+        if (Array.isArray(e.data.portion) && e.data.portion.length > 0) {
+            if (e.data.portion.includes("activeEnchantments")) {
+                this.updateActiveEnchants(e.data.value);
+            } else if (e.data.portion.includes("group")) {
+                this.updateGroupStatus(e.data.value);
+            } else if (e.data.portion.includes("knownInvites")) {
+                this.updateGroupInvites(e.data.value);
             }
-            this.emitDestructiveEnchantStatus();
+        } else if (e.data.portion === "all") {
+            if (e.data.value.hasOwnProperty("activeEnchantments")) {
+                this.updateActiveEnchants(e.data.value.activeEnchantments);
+            }
         }
     }
 
@@ -45,8 +51,29 @@ class PlayerStatus {
         });
 
         this.destructiveEnchantEquipped = destructive;
-
         this.robot.uiEventHandler(ERC.UI_EVENTS.PLAYER_ENCHANT_UPDATE, this.equipmentEnchants);
+        this.emitDestructiveEnchantStatus();
+    }
+
+    updateGroupInvites(data) {
+        if (data === null || (Array.isArray(data) && data.length === 0)) {
+            return;
+        }
+
+        this.groupInvites = data;
+        this.emitInviteReceived();
+    }
+
+    updateGroupStatus(data) {
+        if (data === null) {
+            return;
+        }
+
+        this.group = data;
+    }
+
+    emitInviteReceived() {
+        this.robot.uiEventHandler(ERC.UI_EVENTS.GROUP_INVITE_RECEIVED, this.groupInvites);
     }
 
     emitDestructiveEnchantStatus() {
