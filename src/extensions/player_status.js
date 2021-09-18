@@ -56,8 +56,8 @@ class PlayerStatus {
     }
 
     updateGroupInvites(data) {
-        if (data === null || (Array.isArray(data) && data.length === 0)) {
-            return;
+        if (data === null) {
+            data = [];
         }
 
         this.groupInvites = data;
