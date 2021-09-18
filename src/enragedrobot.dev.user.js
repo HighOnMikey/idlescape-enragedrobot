@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name            EnragedRobot Loader
+// @name            EnragedRobot Loader (dev)
 // @namespace       EnragedRobot
-// @version         0.7.8
+// @version         0.7.8-dev
 // @description     Loads scripts written by Schlermbo/HighOnMikey
 // @author          Schlermbo/HighOnMikey
 // @match           *://*.idlescape.com/*
