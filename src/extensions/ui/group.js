@@ -13,6 +13,8 @@ class GroupUI {
         this.setupStylesheets();
         this.robot.uiEvents.addEventListener(ERC.UI_EVENTS.GROUP_INVITE_RECEIVED, function l(e) {
             self.listeners.inviteNavFlash = l;
+            self.destroyStylesheets();
+            self.setupStylesheets();
             self.toggleInviteNavFlash(e);
         });
         this.robot.extensions.PlayerStatus.emitDestructiveEnchantStatus();
@@ -25,6 +27,7 @@ class GroupUI {
 
     setupStylesheets() {
         let head = document.querySelector("head");
+        let color = this.robot.getOption("group.invite_nav_flash_color", ERC.DEFAULT_SETTINGS.group.invite_nav_flash_color);
         this.stylesheets.inviteNavFlash = head.appendChild(document.createElement("style"));
         this.stylesheets.inviteNavFlash.className = "enragedrobot-groupui-stylesheet navFlash";
         this.stylesheets.inviteNavFlash.innerHTML = `
@@ -34,8 +37,8 @@ class GroupUI {
             
             @keyframes groupInviteAlert {
                 0%   { background-color: rgba(0,0,0,.3); }
-                25%  { background-color: rgba(200, 200, 0, .50); }
-                75%  { background-color: rgba(200, 200, 0, .50); }
+                25%  { background-color: ${color}; }
+                75%  { background-color: ${color}; }
                 100% { background-color: rgba(0,0,0,.3); }
             }
         `;

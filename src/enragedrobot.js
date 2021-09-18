@@ -33,6 +33,10 @@ class EnragedRobot {
                 this.deleteOption("ui");
                 this.setOption("storage_version", ++userVersion);
                 console.log("EnragedRobot: Upgraded to storage version 2");
+            } else if (userVersion === 2) {
+                this.setOption("extensions.GroupUI", true);
+                this.setOption("group.invite_nav_flash_color", ERC.DEFAULT_SETTINGS.group.invite_nav_flash_color);
+                this.setOption("storage_version", ++userVersion);
             }
         }
     }
