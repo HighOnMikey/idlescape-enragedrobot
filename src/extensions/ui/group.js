@@ -31,7 +31,7 @@ class GroupUI {
         this.stylesheets.inviteNavFlash = head.appendChild(document.createElement("style"));
         this.stylesheets.inviteNavFlash.className = "enragedrobot-groupui-stylesheet navFlash";
         this.stylesheets.inviteNavFlash.innerHTML = `
-            .navbar4 {
+            .navbar4, .levelbar-medium-skills, .levelbar-small {
                 animation: groupInviteAlert 4s infinite;
             }
             
