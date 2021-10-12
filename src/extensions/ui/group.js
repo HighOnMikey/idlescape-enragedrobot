@@ -12,7 +12,7 @@ class GroupUI {
 
     enable() {
         let self = this;
-        let domWaitInterval = setInterval((h) => {
+        let domWaitInterval = setInterval(() => {
             if (document.querySelector(".play-area-container") === null) return;
             this.setupObservers();
             this.startObservers();
@@ -50,12 +50,21 @@ class GroupUI {
                 if (m.username === name) member = m;
             });
             if (!member) return;
+
             let tooltip = M.Tooltip.init(e, {
                 position: "right",
                 html: self.getGroupPopupTemplate(member),
             });
+
             this.tooltips.push(tooltip);
         });
+    }
+
+    destroyGroupTooltips() {
+        let tooltip;
+        while ((tooltip = this.tooltips.shift())) {
+            tooltip.destroy();
+        }
     }
 
     setupObservers() {
@@ -79,11 +88,18 @@ class GroupUI {
     setupGroupCombatObserver() {
         let observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
-                if (mutation.addedNodes.length <= 0) continue;
-                if (!mutation.target.classList.contains("play-area")) continue;
-                for (const node of mutation.addedNodes) {
-                    if (!node.classList.contains("group-combat-main")) continue;
-                    this.setupGroupTooltips();
+                if (mutation.addedNodes.length > 0) {
+                    if (!mutation.target.classList.contains("play-area")) continue;
+
+                    for (const node of mutation.addedNodes) {
+                        if (!node.classList.contains("group-combat-main")) continue;
+
+                        this.setupGroupTooltips();
+                    }
+                } else if (mutation.removedNodes.length > 0) {
+                    if (!mutation.target.classList.contains("play-area")) continue;
+
+                    this.destroyGroupTooltips();
                 }
             }
         });
@@ -181,7 +197,6 @@ class GroupUI {
     }
 
     getGroupPopupTemplate(member) {
-        console.log(member);
         return `
     <div class="group-container">
         <div class="group-popup">
