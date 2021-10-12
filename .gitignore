@@ -1,5 +1,6 @@
 .code/
 .idea/
+external/
 main.*.js
 main.*.chunk.js
 *.iml
