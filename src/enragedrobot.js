@@ -38,6 +38,11 @@ class EnragedRobot {
                 this.setOption("group.invite_nav_flash", ERC.DEFAULT_SETTINGS.group.invite_nav_flash);
                 this.setOption("group.invite_nav_flash_color", ERC.DEFAULT_SETTINGS.group.invite_nav_flash_color);
                 this.setOption("storage_version", ++userVersion);
+                console.log("EnragedRobot: Upgraded to storage version 3");
+            } else if (userVersion === 3) {
+                this.setOption("group.show_group_tooltips", ERC.DEFAULT_SETTINGS.group.show_group_tooltips);
+                this.setOption("storage_version", ++userVersion);
+                console.log("EnragedRobot: Upgraded to storage version 4");
             }
         }
     }

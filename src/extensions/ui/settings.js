@@ -183,7 +183,7 @@ class Settings {
             self.createSettingsCheckbox(
                 "Flash combat navigation bar when a group invite is pending",
                 "group.invite_nav_flash",
-                true,
+                ERC.DEFAULT_SETTINGS.group.invite_nav_flash,
                 () => {
                     self.robot.extensions.PlayerStatus.emitInviteReceived();
                 },

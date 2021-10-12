@@ -1,6 +1,6 @@
 class ERC {
     static STORAGE_KEY = "enragedRobot";
-    static STORAGE_VERSION = 2;
+    static STORAGE_VERSION = 4;
     static DEFAULT_SETTINGS = {
         combat: {
             disable_monster_avatar: false,
@@ -9,6 +9,7 @@ class ERC {
         group: {
             invite_nav_flash: true,
             invite_nav_flash_color: "#a0a000",
+            show_group_tooltips: true,
         },
         enchants: {
             destructive_warn: true,
