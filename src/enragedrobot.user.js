@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            EnragedRobot Loader
 // @namespace       EnragedRobot
-// @version         0.7.12
+// @version         0.7.13
 // @description     Loads scripts written by Schlermbo/HighOnMikey
 // @author          Schlermbo/HighOnMikey
 // @match           *://*.idlescape.com/*
@@ -9,6 +9,8 @@
 // @downloadURL     https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/enragedrobot.user.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-socketio-listener/main/src/idlescape-listener.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-data/main/src/data.js
+// @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-custom-panel/main/src/custom-panel-manager.js
+// @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-custom-panel/main/src/custom-panel-input.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/const.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/enragedrobot.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/main/src/extensions/player_status.js
