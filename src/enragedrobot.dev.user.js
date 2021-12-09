@@ -10,7 +10,7 @@
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-socketio-listener/main/src/idlescape-listener.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-data/main/src/data.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-custom-panel/main/src/custom-panel-manager.js
-// @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-custom-panel/main/src/custom-panel-input.js
+// @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-custom-panel/main/src/custom-panel-settings-ui.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/dev/src/const.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/dev/src/enragedrobot.js
 // @require         https://raw.githubusercontent.com/HighOnMikey/idlescape-enragedrobot/dev/src/extensions/player_status.js
